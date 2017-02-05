@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Script responsavel pela maquina de estado das animações
+/// </summary>
 public class ControladorAnimator : MonoBehaviour
 {
 	private Animator anim;

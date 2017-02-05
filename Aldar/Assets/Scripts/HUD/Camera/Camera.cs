@@ -5,6 +5,10 @@ public class Camera : MonoBehaviour
 {
 	public Transform Foco { get; set; }
 
+	/// <summary>
+	/// A camera deverá estar dentro do objto que contiver esse script.
+	/// A distância da camera para esse objeto será pre-definida.
+	/// </summary>
 	void Start ()
 	{
 		try

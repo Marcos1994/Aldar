@@ -5,9 +5,9 @@ public class PersonagemCombate : MonoBehaviour
 {
 	/*-------------- Combate ----------------*/
 	public EnumTipoArmamento tipoArmamento;
-    public Transform[] maos;
-	public Transform[] slots;
-	public Transform[] armas;
+    public Transform[] maos;	//parents para equipar as armas (EnumMaos)
+	public Transform[] slots;	//parents para guardar as armas (EnumSlots)
+	public Transform[] armas;	//prefabs das armas (EnumTipoArmamento)
 
 	/*-------------- Componentes e Controles ----------------*/
 	private ControladorAnimator anim;
@@ -20,6 +20,9 @@ public class PersonagemCombate : MonoBehaviour
 		combate.Iniciar();
 	}
 
+	/// <summary>
+	/// Coloca o personagem em postura de combate ou normal, guardando ou equipando seu armamento.
+	/// </summary>
 	public void TrocarPosturaCombate()
 	{
 		if (anim.EmEscada || (anim.Postura > EnumEstadoArmamento.Desarmado && anim.Postura != EnumEstadoArmamento.Armado))
@@ -32,6 +35,9 @@ public class PersonagemCombate : MonoBehaviour
 			StartCoroutine(TrocarPostura());
 	}
 
+	/// <summary>
+	/// Ativa/Desativa a camada de armamento do animator
+	/// </summary>
 	private IEnumerator TrocarPostura()
 	{
 		if(anim.Combate)
@@ -52,6 +58,9 @@ public class PersonagemCombate : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Inicia a animação de ataque
+	/// </summary>
 	public void Atacar()
 	{
 		if (anim.Postura != EnumEstadoArmamento.Armado)
@@ -62,6 +71,9 @@ public class PersonagemCombate : MonoBehaviour
 		StopAllCoroutines();
 	}
 
+	/// <summary>
+	/// Essa função deve ser chamada de dentro da animação de ataque
+	/// </summary>
 	public void FinalizarAtaque(int ataque)
 	{
 		anim.Postura = EnumEstadoArmamento.Armado;
@@ -69,12 +81,18 @@ public class PersonagemCombate : MonoBehaviour
         StartCoroutine(VoltarMover(tempo));
 	}
 
+	/// <summary>
+	/// Permite que o personagem possa se mover novamente ao finalizar um ataque
+	/// </summary>
 	private IEnumerator VoltarMover(float tempo)
 	{
 		yield return new WaitForSeconds(tempo);
 		anim.PodeMover = true;
 	}
 
+	/// <summary>
+	/// Essa função deve ser chamada na animação de EmpunharArma
+	/// </summary>
 	public void EmpunharArma()
 	{
 		bool armando = anim.Postura == EnumEstadoArmamento.Empunhando;

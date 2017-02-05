@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Esse script é responsavem por ativar e desativas as animações contidas no animator de uma arma.
+/// </summary>
 public class ArmaAnimada : Arma
 {
 	private Animator anim;

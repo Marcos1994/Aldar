@@ -13,7 +13,7 @@ public class PersonagemMovel : MonoBehaviour
 	private float raioCC;
 
 	/*-------------- Componentes e Controles ----------------*/
-	private CharacterController cc;
+	private CharacterController cc;	//Center.Y = 0,95; Radius = 0,25; Height = 1,8
 	private RaycastHit raycastHit;
 	private ControllerColliderHit colliderHit;
 	private float rayDistance;
@@ -29,28 +29,34 @@ public class PersonagemMovel : MonoBehaviour
 
 	void Update()
 	{
+		//Define se o personagem está ou não no chão
 		anim.NoChao = (cc.collisionFlags & CollisionFlags.Below) != 0 ||
 					  (cc.collisionFlags == CollisionFlags.Below);
 		
+		//Aceleração da gravidade
 		anim.Gravidade = (!anim.NoChao && cc.collisionFlags == CollisionFlags.Above) ?
 			-0.1F : Mathf.Clamp(anim.Gravidade - (Time.deltaTime / 2), ((anim.NoChao || cc.velocity.y == 0) ? -0.3F : -0.6F), 0.5F);
 
+		//Execução da movimentação
 		if (anim.EmEscada)
 			cc.Move(new Vector3(0, yMov, 0));
 		else
 			cc.Move(forcaAdicional + new Vector3(xMov, anim.Gravidade, yMov));
 	}
 
+	//Muda o estado da possibilidade de movimentação do personagem
 	public void PodeMover(int podeMover)
 	{
-		anim.PodeMover = podeMover == 1;
+		anim.PodeMover = (podeMover == 1);
 	}
 
+	//Reduz a velocidade do personagem caso ele comece a andar
 	public void Andar(bool andando)
 	{
 		anim.Andando = andando;
 	}
 
+	//Gerencia o comportamento de movimentação do personagem
 	public void Mover(float x, float y)
 	{
 		if (!anim.PodeMover)
@@ -70,6 +76,7 @@ public class PersonagemMovel : MonoBehaviour
 		cc.radius = raioCC + (raioCC * anim.Velocidade);
 	}
 
+	//Gerencia o comportamento de movimentação do personagem NO CHÃO
 	private void Correr(float x, float y)
 	{
 		float slideSpeed = 1;
@@ -92,6 +99,7 @@ public class PersonagemMovel : MonoBehaviour
 		Rotacionar(x, y);
 	}
 
+	//Altera a gravidade do personagem para q ele pule
 	public void Pular()
 	{
 		if (anim.PodeMover && (anim.NoChao || anim.EmEscada))
@@ -106,6 +114,7 @@ public class PersonagemMovel : MonoBehaviour
 		}
 	}
 
+	//Animação de entrar em escada
 	public void EntrarEscada()
 	{
 		if (anim.PodeMover && !anim.EmEscada && anim.NoChao && !anim.Combate && escadaProxima != null)
@@ -120,6 +129,7 @@ public class PersonagemMovel : MonoBehaviour
 		}
 	}
 
+	//Animação do personagem entrando na escada.
 	private IEnumerator ParaEscada(bool entrar)
 	{
 		if (entrar) anim.PodeMover = false;
@@ -132,6 +142,7 @@ public class PersonagemMovel : MonoBehaviour
 		anim.PodeMover = true;
 	}
 
+	//Gerencia o comportamento de movimentação do personagem EM ESCADA
 	public void Escalar(float y)
 	{
 		if (anim.PodeMover)
@@ -150,6 +161,7 @@ public class PersonagemMovel : MonoBehaviour
 		}
 	}
 
+	//Gerencia o direcionamento do personagem
 	private void Rotacionar(float x, float y)
 	{
 		if ((sentidoX == x && sentidoY == y) || (x == 0 && y == 0))
