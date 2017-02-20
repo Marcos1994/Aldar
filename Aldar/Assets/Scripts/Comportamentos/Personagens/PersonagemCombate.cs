@@ -5,19 +5,19 @@ public class PersonagemCombate : MonoBehaviour
 {
 	/*-------------- Combate ----------------*/
 	public EnumTipoArmamento tipoArmamento;
-    public Transform[] maos;	//parents para equipar as armas (EnumMaos)
-	public Transform[] slots;	//parents para guardar as armas (EnumSlots)
-	public Transform[] armas;	//prefabs das armas (EnumTipoArmamento)
+    public Transform[] Maos;	//parents para equipar as armas (EnumMaos)
+	public Transform[] Slots;	//parents para guardar as armas (EnumSlots)
+	public Transform[] Armas;	//prefabs das armas (EnumTipoArmamento)
 
 	/*-------------- Componentes e Controles ----------------*/
-	private ControladorAnimator anim;
-	private PosturaCombate combate;
+	private ControladorAnimator Anim;
+	private PosturaCombate Combate;
 
 	void Start ()
 	{
-		anim = gameObject.GetComponent<ControladorAnimator>();
-		combate = ConstrutorPosturaCombate.Construir(this, tipoArmamento);
-		combate.Iniciar();
+		Anim = gameObject.GetComponent<ControladorAnimator>();
+		Combate = ConstrutorPosturaCombate.Construir(this, tipoArmamento);
+		Combate.Iniciar(gameObject);
 	}
 
 	/// <summary>
@@ -25,13 +25,13 @@ public class PersonagemCombate : MonoBehaviour
 	/// </summary>
 	public void TrocarPosturaCombate()
 	{
-		if (anim.EmEscada || (anim.Postura > EnumEstadoArmamento.Desarmado && anim.Postura != EnumEstadoArmamento.Armado))
+		if (Anim.EmEscada || (Anim.Postura > EnumEstadoArmamento.Desarmado && Anim.Postura != EnumEstadoArmamento.Armado))
 			return;
 
-		anim.Postura = (anim.Postura == EnumEstadoArmamento.Desarmado) ?
+		Anim.Postura = (Anim.Postura == EnumEstadoArmamento.Desarmado) ?
 			EnumEstadoArmamento.Empunhando : EnumEstadoArmamento.Guardando;
-        anim.Combate = !anim.Combate;
-		if (anim.Combate)
+        Anim.Combate = !Anim.Combate;
+		if (Anim.Combate)
 			StartCoroutine(TrocarPostura());
 	}
 
@@ -40,11 +40,11 @@ public class PersonagemCombate : MonoBehaviour
 	/// </summary>
 	private IEnumerator TrocarPostura()
 	{
-		if(anim.Combate)
+		if(Anim.Combate)
 		{
 			for (int i = 0; i <= 10; i++)
 			{
-				anim.AtivarCamadaArmas(i/10.0F);
+				Anim.AtivarCamadaArmas(i/10.0F);
 				yield return new WaitForSeconds(0.025F);
 			}
 		}
@@ -52,7 +52,7 @@ public class PersonagemCombate : MonoBehaviour
 		{
 			for (int i = 10; i >= 0; i--)
 			{
-				anim.AtivarCamadaArmas(i / 10.0F);
+				Anim.AtivarCamadaArmas(i / 10.0F);
 				yield return new WaitForSeconds(0.025F);
 			}
 		}
@@ -63,21 +63,29 @@ public class PersonagemCombate : MonoBehaviour
 	/// </summary>
 	public void Atacar()
 	{
-		if (anim.Postura != EnumEstadoArmamento.Armado)
+		if (Anim.Postura != EnumEstadoArmamento.Armado)
 			return;
 
-		anim.Postura = EnumEstadoArmamento.Atacando;
-        anim.PodeMover = false;
+		Anim.Postura = EnumEstadoArmamento.Atacando;
+        Anim.PodeMover = false;
 		StopAllCoroutines();
 	}
 
 	/// <summary>
 	/// Essa função deve ser chamada de dentro da animação de ataque
 	/// </summary>
-	public void FinalizarAtaque(int ataque)
+	public void IniciarAtaque(int ataque)
 	{
-		anim.Postura = EnumEstadoArmamento.Armado;
-		float tempo = combate.FinalizarAtaque(ataque);
+		Combate.IniciarAtaque(ataque);
+	}
+
+	/// <summary>
+	/// Essa função deve ser chamada de dentro da animação de ataque
+	/// </summary>
+	public void FinalizarAtaque()
+	{
+		Anim.Postura = EnumEstadoArmamento.Armado;
+		float tempo = Combate.FinalizarAtaque();
         StartCoroutine(VoltarMover(tempo));
 	}
 
@@ -87,7 +95,7 @@ public class PersonagemCombate : MonoBehaviour
 	private IEnumerator VoltarMover(float tempo)
 	{
 		yield return new WaitForSeconds(tempo);
-		anim.PodeMover = true;
+		Anim.PodeMover = true;
 	}
 
 	/// <summary>
@@ -95,11 +103,11 @@ public class PersonagemCombate : MonoBehaviour
 	/// </summary>
 	public void EmpunharArma()
 	{
-		bool armando = anim.Postura == EnumEstadoArmamento.Empunhando;
-		anim.Postura = (armando) ? EnumEstadoArmamento.Armado : EnumEstadoArmamento.Desarmado;
-		combate.EmpunharArma(armando);
+		bool armando = Anim.Postura == EnumEstadoArmamento.Empunhando;
+		Anim.Postura = (armando) ? EnumEstadoArmamento.Armado : EnumEstadoArmamento.Desarmado;
+		Combate.EmpunharArma(armando);
 
-		if (!anim.Combate)
+		if (!Anim.Combate)
 			StartCoroutine(TrocarPostura());
 	}
 }

@@ -12,12 +12,12 @@ public class Escada : MonoBehaviour
 	void OnTriggerEnter(Collider ator)
 	{
 		if (ator.gameObject.layer == LayerMask.NameToLayer("Personagens"))
-			ator.gameObject.GetComponent<PersonagemMovel>().escadaProxima = gameObject.transform;
+			ator.gameObject.GetComponent<PersonagemMovel>().EscadaProxima = gameObject.transform;
 	}
 
 	void OnTriggerExit(Collider ator)
 	{
 		if (ator.gameObject.layer == LayerMask.NameToLayer("Personagens"))
-			ator.gameObject.GetComponent<PersonagemMovel>().escadaProxima = null;
+			ator.gameObject.GetComponent<PersonagemMovel>().EscadaProxima = null;
 	}
 }

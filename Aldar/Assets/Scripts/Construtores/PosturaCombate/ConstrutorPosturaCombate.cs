@@ -11,9 +11,6 @@ public static class ConstrutorPosturaCombate
 			case EnumTipoArmamento.Bastao:
 				postura = new Bastao();
 				break;
-			case EnumTipoArmamento.Piques:
-				postura = new Piques();
-				break;
 		}
 		postura.Personagem = personagem;
 		return postura;

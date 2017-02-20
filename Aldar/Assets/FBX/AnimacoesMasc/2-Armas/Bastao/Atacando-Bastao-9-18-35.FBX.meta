@@ -204,12 +204,19 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.49181375
-        functionName: FinalizarAtaque
+      - time: 0.16901408
+        functionName: IniciarAtaque
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 1
+        messageOptions: 0
+      - time: 0.74815893
+        functionName: FinalizarAtaque
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
         messageOptions: 0
       transformMask:
       - path: 
@@ -485,6 +492,13 @@ ModelImporter:
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.16901414
+        functionName: IniciarAtaque
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
         intParameter: 2
         messageOptions: 0
       transformMask:
@@ -756,8 +770,22 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.57575756
+      - time: 0.30962083
+        functionName: IniciarAtaque
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 3
+        messageOptions: 0
+      - time: 0.6950469
         functionName: FinalizarAtaque
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.58215964
+        functionName: IniciarAtaque
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -1033,6 +1061,7 @@ ModelImporter:
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
+    serializedVersion: 2
     human: []
     skeleton: []
     armTwist: 0.5
@@ -1043,7 +1072,10 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 2
   humanoidOversampling: 1

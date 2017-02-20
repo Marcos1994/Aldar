@@ -6,17 +6,17 @@ using System.Collections;
 /// </summary>
 public class ArmaAnimada : Arma
 {
-	private Animator anim;
+	private Animator Anim;
 
 	void Start ()
 	{
-		anim = gameObject.GetComponent<Animator>();
-		anim.SetBool("Equipada", false);
+		Anim = gameObject.GetComponent<Animator>();
+		Anim.SetBool("Equipada", false);
 	}
 
 	public override void Equipar(Transform local, bool equipar = true)
 	{
 		base.Equipar(local, equipar);
-		anim.SetBool("Equipada", equipar);
+		Anim.SetBool("Equipada", equipar);
 	}
 }

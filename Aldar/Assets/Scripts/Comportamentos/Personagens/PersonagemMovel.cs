@@ -4,13 +4,13 @@ using System.Collections;
 public class PersonagemMovel : MonoBehaviour
 {
 	/*-------------- Movimentação ----------------*/
-	[Range(0, 6)] public float velocidadeMovimento = 4;
-	[Range(0, 100)] public float forcaPulo = 55;
+	[Range(0, 6)] public float VelocidadeMovimento = 4;
+	[Range(0, 100)] public float ForcaPulo = 55;
 	public float xMov = 0, yMov = 0;
-	public int sentidoX = 0, sentidoY = 1;
-	public Vector3 forcaAdicional = Vector3.zero;
-	public Transform escadaProxima;
-	private float raioCC;
+	public int SentidoX = 0, SentidoY = 1;
+	public Vector3 ForcaAdicional = Vector3.zero;
+	public Transform EscadaProxima;
+	private float RaioCC;
 
 	/*-------------- Componentes e Controles ----------------*/
 	private CharacterController cc;	//Center.Y = 0,95; Radius = 0,25; Height = 1,8
@@ -24,7 +24,7 @@ public class PersonagemMovel : MonoBehaviour
 		anim = gameObject.GetComponent<ControladorAnimator>();
 		cc = gameObject.GetComponent<CharacterController>();
 		rayDistance = cc.height/2 + cc.radius;
-		raioCC = cc.radius;
+		RaioCC = cc.radius;
     }
 
 	void Update()
@@ -41,7 +41,7 @@ public class PersonagemMovel : MonoBehaviour
 		if (anim.EmEscada)
 			cc.Move(new Vector3(0, yMov, 0));
 		else
-			cc.Move(forcaAdicional + new Vector3(xMov, anim.Gravidade, yMov));
+			cc.Move(ForcaAdicional + new Vector3(xMov, anim.Gravidade, yMov));
 	}
 
 	//Muda o estado da possibilidade de movimentação do personagem
@@ -73,7 +73,7 @@ public class PersonagemMovel : MonoBehaviour
 		else
 			Correr(x,y);
 
-		cc.radius = raioCC + (raioCC * anim.Velocidade);
+		cc.radius = RaioCC + (RaioCC * anim.Velocidade);
 	}
 
 	//Gerencia o comportamento de movimentação do personagem NO CHÃO
@@ -92,7 +92,7 @@ public class PersonagemMovel : MonoBehaviour
 			else if (!anim.EmEscada)
 				slideSpeed = 0.4F;
 		}
-		float multiplicador = velocidadeMovimento * slideSpeed * Time.deltaTime;
+		float multiplicador = VelocidadeMovimento * slideSpeed * Time.deltaTime;
 		xMov = x * multiplicador;
 		yMov = y * multiplicador;
 		anim.Velocidade = (x != 0 || y != 0) ? 1 : 0;
@@ -110,16 +110,16 @@ public class PersonagemMovel : MonoBehaviour
 				StartCoroutine(ParaEscada(false));
 				return;
 			}
-			anim.Gravidade = forcaPulo / 300;
+			anim.Gravidade = ForcaPulo / 300;
 		}
 	}
 
 	//Animação de entrar em escada
 	public void EntrarEscada()
 	{
-		if (anim.PodeMover && !anim.EmEscada && anim.NoChao && !anim.Combate && escadaProxima != null)
+		if (anim.PodeMover && !anim.EmEscada && anim.NoChao && !anim.Combate && EscadaProxima != null)
 		{
-			float distancia = escadaProxima.position.x - gameObject.transform.position.x;
+			float distancia = EscadaProxima.position.x - gameObject.transform.position.x;
 			if (distancia > -0.25F && distancia < 0.25F)
 			{
 				Debug.Log("Começou");
@@ -136,7 +136,7 @@ public class PersonagemMovel : MonoBehaviour
 		anim.EmEscada = entrar;
 		
 		if (entrar)
-			gameObject.transform.eulerAngles = escadaProxima.transform.eulerAngles;
+			gameObject.transform.eulerAngles = EscadaProxima.transform.eulerAngles;
 
 		yield return new WaitForSeconds((entrar) ? 0.4F : 0);
 		anim.PodeMover = true;
@@ -150,25 +150,25 @@ public class PersonagemMovel : MonoBehaviour
 			yMov = y;
             if (yMov != 0)
 			{
-				if (yMov > 0 && escadaProxima == null)
+				if (yMov > 0 && EscadaProxima == null)
 					yMov = 0;
 				else if (anim.NoChao)
 					StartCoroutine(ParaEscada(false));
 			}
 			xMov = 0;
 			anim.Velocidade = yMov;
-			yMov = yMov * velocidadeMovimento * Time.deltaTime / 3;
+			yMov = yMov * VelocidadeMovimento * Time.deltaTime / 3;
 		}
 	}
 
 	//Gerencia o direcionamento do personagem
 	private void Rotacionar(float x, float y)
 	{
-		if ((sentidoX == x && sentidoY == y) || (x == 0 && y == 0))
+		if ((SentidoX == x && SentidoY == y) || (x == 0 && y == 0))
 			return;
-		sentidoX = sentidoY = 0;
-		if (x != 0) sentidoX = (x > 0) ? 1 : -1;
-		if (y != 0) sentidoY = (y > 0) ? 1 : -1;
+		SentidoX = SentidoY = 0;
+		if (x != 0) SentidoX = (x > 0) ? 1 : -1;
+		if (y != 0) SentidoY = (y > 0) ? 1 : -1;
 
 		if (anim.EmEscada)
 			return;
@@ -184,9 +184,9 @@ public class PersonagemMovel : MonoBehaviour
 		//315  -1 +1
 
 		int angulo = 0;
-		if (x == 0)		angulo = (sentidoY > 0) ? 0 : 180;
-		else if (x > 0) angulo = 180 - (90 * sentidoX) - (45 * sentidoY);
-		else			angulo = 180 - (90 * sentidoX) + (45 * sentidoY);
+		if (x == 0)		angulo = (SentidoY > 0) ? 0 : 180;
+		else if (x > 0) angulo = 180 - (90 * SentidoX) - (45 * SentidoY);
+		else			angulo = 180 - (90 * SentidoX) + (45 * SentidoY);
 
 		gameObject.transform.eulerAngles = new Vector2(0, angulo);
 	}

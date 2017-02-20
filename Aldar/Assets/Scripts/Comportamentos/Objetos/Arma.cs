@@ -6,6 +6,10 @@ using System.Collections;
 /// </summary>
 public class Arma : MonoBehaviour
 {
+	public float DanoBase;
+	
+	private float dano;
+	
 	public virtual void Equipar(Transform local, bool equipar = true)
 	{
 		gameObject.transform.parent = local;
