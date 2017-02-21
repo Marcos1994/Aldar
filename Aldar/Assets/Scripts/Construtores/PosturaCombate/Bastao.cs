@@ -3,12 +3,21 @@ using System.Collections;
 
 public class Bastao : PosturaCombate
 {
-	public override void Iniciar(GameObject Pai)
+	private BoxCollider box;
+
+	public override void Iniciar()
 	{
 		Object.Instantiate(Personagem.Armas[0], Personagem.Slots[(int)EnumSlots.CostasDireita]);
 		Transform arma = Personagem.Slots[(int)EnumSlots.CostasDireita].GetChild(0);
 		arma.position = arma.parent.position;
 		arma.rotation = arma.parent.rotation;
+	}
+
+	private void AtivarColisor(Vector3 posicao)
+	{
+		BoxCollider box = Personagem.gameObject.AddComponent<BoxCollider>();
+		box.center = posicao;
+		box.isTrigger = true;
 	}
 
 	public override void EmpunharArma(bool armando)
@@ -34,12 +43,15 @@ public class Bastao : PosturaCombate
 		switch (ataque)
 		{
 			case 1:
+				AtivarColisor(new Vector3(0, 1, 1));
 				dano = arma.DanoBase - 3;
 				break;
 			case 2:
+				AtivarColisor(new Vector3(0, 1, 1));
 				dano = arma.DanoBase - 1;
 				break;
 			case 3:
+				AtivarColisor(new Vector3(0, 1, 1.2F));
 				dano = arma.DanoBase * 1.2F;
 				break;
 		}

@@ -17,7 +17,7 @@ public class PersonagemCombate : MonoBehaviour
 	{
 		Anim = gameObject.GetComponent<ControladorAnimator>();
 		Combate = ConstrutorPosturaCombate.Construir(this, tipoArmamento);
-		Combate.Iniciar(gameObject);
+		Combate.Iniciar();
 	}
 
 	/// <summary>
@@ -85,8 +85,9 @@ public class PersonagemCombate : MonoBehaviour
 	public void FinalizarAtaque()
 	{
 		Anim.Postura = EnumEstadoArmamento.Armado;
+		Destroy(gameObject.GetComponent<BoxCollider>());
 		float tempo = Combate.FinalizarAtaque();
-        StartCoroutine(VoltarMover(tempo));
+		StartCoroutine(VoltarMover(tempo));
 	}
 
 	/// <summary>
@@ -109,5 +110,11 @@ public class PersonagemCombate : MonoBehaviour
 
 		if (!Anim.Combate)
 			StartCoroutine(TrocarPostura());
+	}
+
+	public void OnTriggerEnter(Collider other)
+	{
+		if (other.gameObject != gameObject && other.gameObject.layer == LayerMask.NameToLayer("Personagens"))
+			Debug.Log(other.name);
 	}
 }
