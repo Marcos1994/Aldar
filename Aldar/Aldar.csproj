@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>5.5.1f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -90,12 +88,14 @@
     <Compile Include="Assets\Scripts\Construtores\PosturaCombate\PosturaCombate.cs" />
     <Compile Include="Assets\Scripts\Controles\Controle.cs" />
     <Compile Include="Assets\Scripts\Controles\ControleJogador.cs" />
+    <Compile Include="Assets\Scripts\Entidades\Dano.cs" />
     <Compile Include="Assets\Scripts\Enumeradores\EnumEstadoArmamento.cs" />
     <Compile Include="Assets\Scripts\Enumeradores\EnumMaos.cs" />
     <Compile Include="Assets\Scripts\Enumeradores\EnumSlots.cs" />
     <Compile Include="Assets\Scripts\Enumeradores\EnumTags.cs" />
     <Compile Include="Assets\Scripts\Enumeradores\EnumTipoArmamento.cs" />
-    <Compile Include="Assets\Scripts\HUD\Camera\Camera.cs" />
+    <Compile Include="Assets\Scripts\HUD\Camera\CameraFocada.cs" />
+    <Compile Include="Assets\Scripts\HUD\Mensagens\DanoTexto.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

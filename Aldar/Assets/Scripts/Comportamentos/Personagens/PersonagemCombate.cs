@@ -112,9 +112,18 @@ public class PersonagemCombate : MonoBehaviour
 			StartCoroutine(TrocarPostura());
 	}
 
+	private Dano CalcularDano()
+	{
+		return new Dano { Fisico = 8, Psicologico = 8, Vital = 8 };
+	}
+
 	public void OnTriggerEnter(Collider other)
 	{
 		if (other.gameObject != gameObject && other.gameObject.layer == LayerMask.NameToLayer("Personagens"))
-			Debug.Log(other.name);
+		{
+			PersonagemVivo pv = other.GetComponent<PersonagemVivo>();
+			if (pv != null)
+				pv.ReceberDano(CalcularDano());
+		}
 	}
 }

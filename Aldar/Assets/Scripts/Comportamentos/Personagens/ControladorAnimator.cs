@@ -7,7 +7,7 @@ using System.Collections;
 public class ControladorAnimator : MonoBehaviour
 {
 	private Animator Anim;
-	private bool combate, andando, emEscada, noChao, podeMover;
+	private bool combate, andando, emEscada, noChao, podeMover, atingido;
 	private float velocidade, gravidade;
 	private int postura;
 
@@ -15,10 +15,22 @@ public class ControladorAnimator : MonoBehaviour
 	{
 		Anim = gameObject.GetComponent<Animator>();
 
+		//foreach (AnimatorControllerParameter param in Anim.parameters)
+		//{
+		//	switch (param.name)
+		//	{
+		//		case "Combate":
+		//			combate = Anim.GetBool(param.name);
+		//			break;
+		//	}
+		//}
+
+
 		combate = Anim.GetBool("Combate");
 		andando = Anim.GetBool("Andando");
 		emEscada = Anim.GetBool("EmEscada");
 		noChao = Anim.GetBool("NoChao");
+		atingido = Anim.GetBool("Atingido");
 
 		velocidade = Anim.GetFloat("Velocidade");
 		gravidade = Anim.GetFloat("Gravidade");
@@ -74,6 +86,19 @@ public class ControladorAnimator : MonoBehaviour
 	{
 		get { return noChao; }
 		set { if (noChao != value) Anim.SetBool("NoChao", noChao = value); }
+	}
+
+	public bool Atingido
+	{
+		get { return atingido; }
+		set
+		{
+			if (atingido != value)
+			{
+				PodeMover = !value;
+				Anim.SetBool("Atingido", atingido = value);
+			}
+		}
 	}
 
 	public EnumEstadoArmamento Postura
